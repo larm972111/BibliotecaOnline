@@ -1,0 +1,25 @@
+@model IEnumerable<BibliotecaOnline.Models.Book>
+
+@{
+    ViewData["Title"] = "Elenco Libri";
+}
+
+<h2>Elenco Libri</h2>
+
+<p>
+    <a asp-action="Create">Crea Nuovo Libro</a>
+</p>
+
+@if (!Model.Any())
+{
+    <p>Nessun libro presente nel catalogo.</p>
+}
+else
+{
+    <ul>
+        @foreach (var book in Model)
+        {
+            <li>@book.Id - <strong>@book.Title</strong> - @book.Author - @book.ReleaseYear - @book.Genre -(@book.Price.ToString("C"))</li>
+        }
+    </ul>
+}
