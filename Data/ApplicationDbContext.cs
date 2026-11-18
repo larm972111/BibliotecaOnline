@@ -37,5 +37,11 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             .WithMany(member => member.Loans)
             .HasForeignKey(loan => loan.LibraryMemberId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<LibraryMember>()
+            .HasOne(member => member.IdentityUser)
+            .WithOne()
+            .HasForeignKey<LibraryMember>(member => member.IdentityUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

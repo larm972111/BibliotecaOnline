@@ -92,6 +92,9 @@ namespace BibliotecaOnline.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -101,6 +104,9 @@ namespace BibliotecaOnline.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdentityUserId")
+                        .IsUnique();
 
                     b.ToTable("LibraryMembers");
                 });
@@ -346,6 +352,16 @@ namespace BibliotecaOnline.Migrations
                         .IsRequired();
 
                     b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("BibliotecaOnline.Models.LibraryMember", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithOne()
+                        .HasForeignKey("BibliotecaOnline.Models.LibraryMember", "IdentityUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("BibliotecaOnline.Models.Loan", b =>
